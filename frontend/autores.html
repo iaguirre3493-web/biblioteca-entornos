@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Autores</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div class="container">
+    <h1>Gestión de autores</h1>
+
+    <a class="btn-volver" href="index.html">Volver al inicio</a>
+
+    <h2 id="form-title">Añadir autor</h2>
+
+    <form id="autor-form">
+        <input type="hidden" id="autor-id" />
+
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" required />
+
+        <label for="nacionalidad">Nacionalidad</label>
+        <input type="text" id="nacionalidad" required />
+
+        <button type="submit">Guardar</button>
+        <button type="button" id="cancelar-edicion" style="display: none;">Cancelar edición</button>
+    </form>
+
+    <p id="mensaje"></p>
+
+    <h2>Listado de autores</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Nacionalidad</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody id="tabla-autores"></tbody>
+    </table>
+</div>
+
+<script src="js/autores.js"></script>
+</body>
+</html>
