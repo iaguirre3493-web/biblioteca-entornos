@@ -19,6 +19,17 @@ db.serialize(() => {
       nacionalidad TEXT NOT NULL
     )
   `);
-});
 
+
+db.run(`
+  CREATE TABLE IF NOT EXISTS libros (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    titulo TEXT NOT NULL,
+    genero TEXT NOT NULL,
+    anio INTEGER NOT NULL,
+    autor_id INTEGER NOT NULL,
+    FOREIGN KEY (autor_id) REFERENCES autores(id)
+  )
+`);
+});
 module.exports = db;
