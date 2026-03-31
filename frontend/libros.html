@@ -9,8 +9,50 @@
 <body>
 <div class="container">
     <h1>Gestión de libros</h1>
+
     <a class="btn-volver" href="index.html">Volver al inicio</a>
-    <p>Esta parte la haremos a continuación.</p>
+
+    <h2 id="form-title">Añadir libro</h2>
+
+    <form id="libro-form">
+        <input type="hidden" id="libro-id" />
+
+        <label for="titulo">Título</label>
+        <input type="text" id="titulo" required />
+
+        <label for="genero">Género</label>
+        <input type="text" id="genero" required />
+
+        <label for="anio">Año</label>
+        <input type="number" id="anio" required />
+
+        <label for="autor_id">Autor</label>
+        <select id="autor_id" required>
+            <option value="">Selecciona un autor</option>
+        </select>
+
+        <button type="submit">Guardar</button>
+        <button type="button" id="cancelar-edicion" style="display: none;">Cancelar edición</button>
+    </form>
+
+    <p id="mensaje"></p>
+
+    <h2>Listado de libros</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Género</th>
+            <th>Año</th>
+            <th>Autor</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody id="tabla-libros"></tbody>
+    </table>
 </div>
+
+<script src="js/libros.js"></script>
 </body>
 </html>
