@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const db = require("./database/db");
 const autoresRoutes = require("./routes/autoresRoutes");
+const librosRoutes = require("./routes/librosRoutes");
 
 const app = express();
 const PORT = 3000;
@@ -14,6 +15,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/autores", autoresRoutes);
+app.use("/libros", librosRoutes);
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
