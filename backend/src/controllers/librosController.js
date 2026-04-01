@@ -41,25 +41,37 @@ const getLibroById = (req, res) => {
 const createLibro = (req, res) => {
   const { titulo, genero, anio, autor_id } = req.body;
 
-  const sql = `
-    INSERT INTO libros (titulo, genero, anio, autor_id)
-    VALUES (?, ?, ?, ?)
-  `;
+  const sqlAutor = "SELECT * FROM autores WHERE id = ?";
 
-  db.run(sql, [titulo, genero, anio, autor_id], function (err) {
+  db.get(sqlAutor, [autor_id], (err, autor) => {
     if (err) {
-      return res.status(500).json({ error: "Error al crear el libro" });
+      return res.status(500).json({ error: "Error al comprobar el autor" });
     }
 
-    res.status(201).json({
-      message: "Libro creado correctamente",
-      libro: {
-        id: this.lastID,
-        titulo,
-        genero,
-        anio,
-        autor_id
+    if (!autor) {
+      return res.status(400).json({ error: "El autor seleccionado no existe" });
+    }
+
+    const sqlLibro = `
+      INSERT INTO libros (titulo, genero, anio, autor_id)
+      VALUES (?, ?, ?, ?)
+    `;
+
+    db.run(sqlLibro, [titulo, genero, anio, autor_id], function (err) {
+      if (err) {
+        return res.status(500).json({ error: "Error al crear el libro" });
       }
+
+      res.status(201).json({
+        message: "Libro creado correctamente",
+        libro: {
+          id: this.lastID,
+          titulo,
+          genero,
+          anio,
+          autor_id
+        }
+      });
     });
   });
 };
@@ -68,30 +80,42 @@ const updateLibro = (req, res) => {
   const { id } = req.params;
   const { titulo, genero, anio, autor_id } = req.body;
 
-  const sql = `
-    UPDATE libros
-    SET titulo = ?, genero = ?, anio = ?, autor_id = ?
-    WHERE id = ?
-  `;
+  const sqlAutor = "SELECT * FROM autores WHERE id = ?";
 
-  db.run(sql, [titulo, genero, anio, autor_id, id], function (err) {
+  db.get(sqlAutor, [autor_id], (err, autor) => {
     if (err) {
-      return res.status(500).json({ error: "Error al actualizar el libro" });
+      return res.status(500).json({ error: "Error al comprobar el autor" });
     }
 
-    if (this.changes === 0) {
-      return res.status(404).json({ error: "Libro no encontrado" });
+    if (!autor) {
+      return res.status(400).json({ error: "El autor seleccionado no existe" });
     }
 
-    res.json({
-      message: "Libro actualizado correctamente",
-      libro: {
-        id,
-        titulo,
-        genero,
-        anio,
-        autor_id
+    const sql = `
+      UPDATE libros
+      SET titulo = ?, genero = ?, anio = ?, autor_id = ?
+      WHERE id = ?
+    `;
+
+    db.run(sql, [titulo, genero, anio, autor_id, id], function (err) {
+      if (err) {
+        return res.status(500).json({ error: "Error al actualizar el libro" });
       }
+
+      if (this.changes === 0) {
+        return res.status(404).json({ error: "Libro no encontrado" });
+      }
+
+      res.json({
+        message: "Libro actualizado correctamente",
+        libro: {
+          id,
+          titulo,
+          genero,
+          anio,
+          autor_id
+        }
+      });
     });
   });
 };
